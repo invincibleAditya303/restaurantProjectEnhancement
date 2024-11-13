@@ -1,0 +1,19 @@
+.menuItem {
+  color: #0f0f0f;
+  background-color: transparent;
+  font-size: 18px;
+  font-family: 'Roboto';
+  border-width: 0px;
+  cursor: pointer;
+}
+
+.highlight {
+  color: #fa2e0f;
+  border-bottom: #fa2e0f 2px solid;
+}
+
+@media (max-width: 576px) {
+  .menuItem {
+    font-size: 12px;
+  }
+}

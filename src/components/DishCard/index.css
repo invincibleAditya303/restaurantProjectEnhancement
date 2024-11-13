@@ -1,0 +1,183 @@
+.cardListItem {
+  min-height: 25vh;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: #839688 2px solid;
+  border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+.dishContainer {
+  height: 100%;
+  width: 40%;
+  display: flex;
+}
+
+.dishType {
+  height: 5vh;
+  width: 4vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.dishColor {
+  height: 2vh;
+  width: 2vw;
+  border-radius: 50%;
+}
+
+.dishDetailsContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.dishName {
+  color: #010101;
+  font-size: 20px;
+  font-family: 'Roboto';
+  font-weight: bold;
+}
+
+.dishCurrency {
+  color: #000000;
+  font-size: 16px;
+  font-family: 'Roboto';
+  font-weight: bold;
+}
+
+.dishDescription {
+  color: #646b68;
+  font-size: 14px;
+  font-family: 'Roboto';
+}
+
+.buttonContainer {
+  height: 5vh;
+  width: 7vw;
+  background-color: #066902;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 50px;
+}
+
+.buttonIcon {
+  color: #ffffff;
+  background-color: transparent;
+  font-size: 16px;
+  border-width: 0px;
+  cursor: pointer;
+  outline: none;
+}
+
+.dishCount {
+  color: #ffffff;
+  font-size: 12px;
+  font-family: 'Roboto';
+  font-weight: bold;
+}
+
+.caloriesContainer {
+  width: 7vw;
+}
+
+.caloriesDetails {
+  color: #e37629;
+  font-size: 14px;
+  font-family: 'Roboto';
+  font-weight: bold;
+}
+
+.dishImage {
+  height: 24vh;
+  width: 12vw;
+}
+
+.vegBorder {
+  border: #066902 2px solid;
+}
+
+.nonVegBorder {
+  border: #941501 2px solid;
+}
+
+.vegDish {
+  background-color: #066902;
+}
+
+.nonVegDish {
+  background-color: #941501;
+}
+
+.dishStatus {
+  color: #fc0505;
+  font-size: 12px;
+  font-family: 'Roboto';
+}
+
+.dishCustomization {
+  color: #174be8;
+  font-size: 14px;
+  font-family: 'Roboto';
+}
+
+.hideButton {
+  display: none;
+}
+
+@media (max-width: 576px) {
+  .dishType {
+    width: 10vw;
+  }
+
+  .dishColor {
+    height: 3vh;
+    width: 3vw;
+  }
+
+  .dishName {
+    font-size: 12px;
+  }
+
+  .dishCurrency {
+    font-size: 10px;
+  }
+
+  .dishDescription {
+    font-size: 10px;
+  }
+
+  .buttonContainer {
+    width: 20vw;
+  }
+
+  .buttonIcon {
+    font-size: 10px;
+  }
+
+  .dishImage {
+    width: 15vw;
+  }
+
+  .caloriesDetails {
+    font-size: 10px;
+  }
+
+  .dishCustomization {
+    font-size: 10px;
+  }
+
+  .dishStatus {
+    font-size: 10px;
+  }
+
+  .dishCount {
+    font-size: 10px;
+  }
+}
