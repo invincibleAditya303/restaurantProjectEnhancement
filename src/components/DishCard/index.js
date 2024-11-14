@@ -1,7 +1,7 @@
 import './index.css'
 
 const DishCard = props => {
-  const {dishDetails, onClickIncrement, onClickDecrement, dishCountList} = props
+  const {dishDetails, onClickIncrement, onClickDecrement, cartItems} = props
   const {
     dishName,
     dishId,
@@ -15,18 +15,16 @@ const DishCard = props => {
     addonCat,
   } = dishDetails
 
-  const currentDishId = dishCountList.filter(
-    eachId => eachId.countDishId === dishId,
-  )
+  const getQuantity = () => {
+    const currentItem = cartItems.find(item => item.dishId === dishId)
+    return currentItem ? currentItem.quantity : 0
+  }
 
-  const currentDishCount = currentDishId[0].eachDishCount
-
-  const onClickPlus = () => onClickIncrement(dishId)
-  const onClickMinus = () => onClickDecrement(dishId)
+  const onClickPlus = () => onClickIncrement(dishDetails)
+  const onClickMinus = () => onClickDecrement(dishDetails)
 
   const isVeg = dishType === 2 ? 'vegDish' : 'nonVegDish'
   const borderLine = dishType === 2 ? 'vegBorder' : 'nonVegBorder'
-  const isAvailable = dishAvailability ? '' : 'hideButton'
 
   return (
     <li className="cardListItem">
@@ -40,19 +38,27 @@ const DishCard = props => {
             {dishCurrency} {dishPrice}
           </p>
           <p className="dishDescription">{dishDescription}</p>
-          <div className={`buttonContainer ${isAvailable}`}>
-            <button className="buttonIcon" type="button" onClick={onClickMinus}>
-              -
-            </button>
-            <p className="dishCount">{currentDishCount}</p>
-            <button className="buttonIcon" type="button" onClick={onClickPlus}>
-              +
-            </button>
-          </div>
-          {dishAvailability ? '' : <p className="dishStatus">Not available</p>}
-          {addonCat.length === 0 ? (
-            ''
-          ) : (
+          {dishAvailability && (
+            <div className="buttonContainer">
+              <button
+                className="buttonIcon"
+                type="button"
+                onClick={onClickMinus}
+              >
+                -
+              </button>
+              <p className="dishCount">{getQuantity()}</p>
+              <button
+                className="buttonIcon"
+                type="button"
+                onClick={onClickPlus}
+              >
+                +
+              </button>
+            </div>
+          )}
+          {!dishAvailability && <p className="dishStatus">Not available</p>}
+          {addonCat.length === 0 && (
             <p className="dishCustomization">Customizations available</p>
           )}
         </div>

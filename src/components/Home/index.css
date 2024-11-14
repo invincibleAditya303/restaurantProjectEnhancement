@@ -71,12 +71,15 @@
   font-weight: bold;
 }
 
+.breakLine {
+  color: #f0f0e6;
+}
+
 .menuList {
   width: 90%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: #da6732 2px solid;
   list-style-type: none;
 }
 

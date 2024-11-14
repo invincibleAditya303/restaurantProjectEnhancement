@@ -48,10 +48,7 @@ class Home extends Component {
     restaurantData: {},
     activeTabId: menuCategoryList[0].categoryId,
     apiStatus: apiStatusConstants.initial,
-    cartCount: 0,
-    dishCountList: [],
-    dishIdList: [],
-    tabIdList: [],
+    cartItems: [],
   }
 
   componentDidMount() {
@@ -95,96 +92,59 @@ class Home extends Component {
     this.setState({
       restaurantData: modifiedData,
       apiStatus: apiStatusConstants.success,
-      dishCountList: tableMenuList[0].categoryDishes.map(eachDish => ({
-        countDishId: eachDish.dishId,
-        eachDishCount: 0,
-      })),
     })
   }
 
   onClickCategory = tabId => {
-    const {restaurantData, tabIdList} = this.state
-    console.log(tabIdList)
-    const {tableMenuList} = restaurantData
-    const currentCategory = menuCategoryList.filter(
-      item => item.categoryId === tabId,
-    )
-    const activeMenuList = tableMenuList.filter(
-      eachCategory =>
-        eachCategory.menuCategory === currentCategory[0].categoryType,
-    )
-    console.log(activeMenuList)
-
-    if (tabIdList.includes(tabId)) {
-      this.setState({
-        activeTabId: tabId,
-        dishCountList: activeMenuList[0].categoryDishes.map(eachDish => ({
-          countDishId: eachDish.dishId,
-          eachDishCount: 0,
-        })),
-      })
-    } else {
-      this.setState({
-        activeTabId: tabId,
-        dishCountList: activeMenuList[0].categoryDishes.map(eachDish => ({
-          countDishId: eachDish.dishId,
-          eachDishCount: 0,
-        })),
-        tabIdList: [...tabIdList, tabId],
-      })
-    }
+    this.setState({activeTabId: tabId})
   }
 
-  onClickIncrement = id => {
-    const {dishIdList} = this.state
-    if (dishIdList.includes(id)) {
+  onClickIncrement = dish => {
+    const {cartItems} = this.state
+    const isAlreadyExists = cartItems.find(item => item.dishId === dish.dishId)
+    if (isAlreadyExists) {
       this.setState(prevState => ({
-        dishCountList: prevState.dishCountList.map(eachDish => {
-          if (eachDish.countDishId === id) {
-            return {...eachDish, eachDishCount: eachDish.eachDishCount + 1}
+        cartItems: prevState.cartItems.map(eachDish => {
+          if (eachDish.dishId === dish.dishId) {
+            return {...eachDish, quantity: eachDish.quantity + 1}
           }
 
           return eachDish
         }),
-        cartCount: prevState.cartCount + 1,
       }))
     } else {
+      const newDish = {...dish, quantity: 1}
       this.setState(prevState => ({
-        dishIdList: [...prevState.dishIdList, id],
-        dishCountList: prevState.dishCountList.map(eachDish => {
-          if (eachDish.countDishId === id) {
-            return {...eachDish, eachDishCount: eachDish.eachDishCount + 1}
-          }
-
-          return eachDish
-        }),
-        cartCount: prevState.cartCount + 1,
+        cartItems: [...prevState.cartItems, newDish],
       }))
     }
   }
 
-  onClickDecrement = id => {
-    const {cartCount, dishCountList} = this.state
-    const currentId = dishCountList.filter(dish => dish.countDishId === id)
+  onClickDecrement = dish => {
+    const {cartItems} = this.state
+    const isAlreadyExists = cartItems.find(item => item.dishId === dish.dishId)
+    console.log(isAlreadyExists)
 
-    if (cartCount > 0) {
-      if (currentId[0].eachDishCount > 0) {
-        this.setState(prevState => ({
-          dishCountList: prevState.dishCountList.map(eachDish => {
-            if (eachDish.countDishId === id) {
-              return {...eachDish, eachDishCount: eachDish.eachDishCount - 1}
-            }
+    if (isAlreadyExists) {
+      this.setState(prevState => ({
+        cartItems: prevState.cartItems.map(eachDish => {
+          if (eachDish.dishId === dish.dishId && eachDish.quantity > 0) {
+            return {...eachDish, quantity: eachDish.quantity - 1}
+          }
 
-            return eachDish
-          }),
-          cartCount: prevState.cartCount - 1,
-        }))
-      }
+          return eachDish
+        }),
+      }))
     }
+  }
+
+  getCartItemQuantity = () => {
+    const {cartItems} = this.state
+    return cartItems.reduce((acc, item) => acc + item.quantity, 0)
   }
 
   onSuccessfulRender = () => {
-    const {restaurantData, activeTabId, dishCountList} = this.state
+    const {restaurantData, activeTabId, cartItems} = this.state
     const {tableMenuList} = restaurantData
 
     const activeMenuCategory = menuCategoryList.filter(
@@ -198,13 +158,15 @@ class Home extends Component {
 
     const itemList = currentMenuList[0].categoryDishes
 
+    console.log(cartItems)
+
     return (
       <ul className="dishList">
         {itemList.map(eachItem => (
           <DishCard
             key={eachItem.dishId}
             dishDetails={eachItem}
-            dishCountList={dishCountList}
+            cartItems={cartItems}
             onClickIncrement={this.onClickIncrement}
             onClickDecrement={this.onClickDecrement}
           />
@@ -226,7 +188,7 @@ class Home extends Component {
   )
 
   render() {
-    const {restaurantData, apiStatus, activeTabId, cartCount} = this.state
+    const {restaurantData, apiStatus, activeTabId} = this.state
     const {restaurantName} = restaurantData
 
     const renderFunction = () => {
@@ -248,12 +210,13 @@ class Home extends Component {
             <p className="orderTitle">My Orders</p>
             <div className="cartContainer">
               <div className="countContainer">
-                <p className="countDetails">{cartCount}</p>
+                <p className="countDetails">{this.getCartItemQuantity()}</p>
               </div>
               <AiOutlineShoppingCart className="cartIcon" />
             </div>
           </div>
         </div>
+        <hr className="breakLine" />
         <ul className="menuList">
           {menuCategoryList.map(eachItem => (
             <MenuItem
@@ -264,6 +227,7 @@ class Home extends Component {
             />
           ))}
         </ul>
+        <hr className="breakLine" />
         {renderFunction()}
       </div>
     )
