@@ -2,7 +2,7 @@ import {Component} from 'react'
 
 import Loader from 'react-loader-spinner'
 
-import {AiOutlineShoppingCart} from 'react-icons/ai'
+import Header from '../Header'
 
 import DishCard from '../DishCard'
 
@@ -138,11 +138,6 @@ class Home extends Component {
     }
   }
 
-  getCartItemQuantity = () => {
-    const {cartItems} = this.state
-    return cartItems.reduce((acc, item) => acc + item.quantity, 0)
-  }
-
   onSuccessfulRender = () => {
     const {restaurantData, activeTabId, cartItems} = this.state
     const {tableMenuList} = restaurantData
@@ -204,18 +199,7 @@ class Home extends Component {
 
     return (
       <div className="restaurantBgContainer">
-        <div className="restaurantTitelContainer">
-          <h1 className="restaurantTitle">{restaurantName}</h1>
-          <div className="ordersContainer">
-            <p className="orderTitle">My Orders</p>
-            <div className="cartContainer">
-              <div className="countContainer">
-                <p className="countDetails">{this.getCartItemQuantity()}</p>
-              </div>
-              <AiOutlineShoppingCart className="cartIcon" />
-            </div>
-          </div>
-        </div>
+        <Header />
         <hr className="breakLine" />
         <ul className="menuList">
           {menuCategoryList.map(eachItem => (

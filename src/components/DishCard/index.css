@@ -57,6 +57,12 @@
   font-family: 'Roboto';
 }
 
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .buttonContainer {
   height: 5vh;
   width: 7vw;
@@ -129,6 +135,19 @@
 
 .hideButton {
   display: none;
+}
+
+.cart-button {
+  height: 5vh;
+  width: 15vw;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #3b82f6;
+  margin-left: 5px;
+  outline: none;
+  cursor: pointer;
 }
 
 @media (max-width: 576px) {
